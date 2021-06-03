@@ -1250,5 +1250,4 @@ ggplot(raiz_mean_PEPC,aes(x=Source, y=valor, fill=Source))+
 
 graph2ppt(file="Ratio_plot.pptx", width=1, height=2.5, append=TRUE)
 
-#tu papa
 
