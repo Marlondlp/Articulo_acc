@@ -22,3 +22,9 @@ raiz_mean<-subset(sepmean.Datos, Organ=="Root")
 #Separar los datos de amonio
 A_hojas_mean<-subset(hojas_mean, Source=="A")
 A_raiz_mean<-subset(raiz_mean, Source=="A")
+
+#Nombre de los rows
+rownames(A_hojas_mean)=A_hojas_mean$Accesion
+
+#convertir a matrix
+as.matrix(A_hojas_mean[,c(-1:-7,-23,-31,-32)])
