@@ -4,7 +4,9 @@ DatosBurdeosDMdef12_05_2021 <- read_excel("C:/Users/malon/Dropbox/Tesis PhD/Tesi
 
 
 #Cargar librerias
+library("gplots")
 library(tidyr)
+library(ComplexHeatmap)
 
 #Crear un DataFrame con el promedio de los datos teniedo en cuenta el organo y fuente de nitrogeno
 DatosBurdeosDMdef12_05_2021_unite<-unite(DatosBurdeosDMdef12_05_2021,Treatment, c("Source", "Accesion", 
@@ -26,5 +28,18 @@ A_raiz_mean<-subset(raiz_mean, Source=="A")
 #Nombre de los rows
 rownames(A_hojas_mean)=A_hojas_mean$Accesion
 
+
+
 #convertir a matrix
-as.matrix(A_hojas_mean[,c(-1:-7,-23,-31,-32)])
+matrix_A_hojas_mean<-as.matrix(A_hojas_mean[,c(-1:-7,-23,-31,-32)])
+#Trabajar con los datos estandarizados por accesiones
+scaled_matrix_A_hojas_mean<-t(scale(t(matrix_A_hojas_mean)))
+
+Heatmap(scaled_matrix_A_hojas_mean, row_names_gp = gpar(fontsize = 4), scale = "none")
+heatmap.2(scaled_matrix_A_hojas_mean, Colv = FALSE, dendrogram="row", scale = "none", col="bluered", row_names_gp = gpar(fontsize = 2), lmat=rbind( c(0, 3), c(2,1), c(0,4) ), lhei=c(1.5, 4, 2 ) )
+
+
+library(circlize)
+col_fun = colorRamp2(c(-2, 0, 2), c("green", "white", "red"))
+col_fun(seq(-3, 3))
+
