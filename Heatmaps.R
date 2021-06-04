@@ -21,9 +21,12 @@ sepmean.Datos<-separate(DatosBurdeosDMdef12_05_2021_Mean,Group.1,into=c("Source"
 hojas_mean<-subset(sepmean.Datos, Organ=="leaves")
 raiz_mean<-subset(sepmean.Datos, Organ=="Root")
 
-#Separar los datos de amonio
+#Separar los datos de amonio y nitrato
 A_hojas_mean<-subset(hojas_mean, Source=="A")
 A_raiz_mean<-subset(raiz_mean, Source=="A")
+N_hojas_mean<-subset(hojas_mean, Source=="N")
+N_raiz_mean<-subset(raiz_mean, Source=="N")
+
 
 #Nombre de los rows
 rownames(A_hojas_mean)=A_hojas_mean$Accesion
@@ -33,10 +36,15 @@ rownames(A_hojas_mean)=A_hojas_mean$Accesion
 #convertir a matrix
 matrix_A_hojas_mean<-as.matrix(A_hojas_mean[,c(-1:-7,-23,-31,-32)])
 #Trabajar con los datos estandarizados por accesiones
-scaled_matrix_A_hojas_mean<-t(scale(t(matrix_A_hojas_mean)))
+scaled_matrix_A_hojas_mean<-scale(sqrt(matrix_A_hojas_mean), center = TRUE, scale = TRUE)
 
 Heatmap(scaled_matrix_A_hojas_mean, row_names_gp = gpar(fontsize = 4), scale = "none")
-heatmap.2(scaled_matrix_A_hojas_mean, Colv = FALSE, dendrogram="row", scale = "none", col="bluered", row_names_gp = gpar(fontsize = 2), lmat=rbind( c(0, 3), c(2,1), c(0,4) ), lhei=c(1.5, 4, 2 ) )
+
+
+rowCols <- ifelse(rownames(scaled_matrix_A_hojas_mean)=="Uni2","purple","red")
+
+
+heatmap.2(scaled_matrix_A_hojas_mean,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D2"),cexCol = 0.6,cexRow = 0.5,  RowSideColors=rowCols)
 
 
 library(circlize)
