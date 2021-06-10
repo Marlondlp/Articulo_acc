@@ -6,7 +6,7 @@ DatosBurdeosDMdef12_05_2021 <- read_excel("C:/Users/malon/Dropbox/Tesis PhD/Tesi
 #Cargar librerias
 library("gplots")
 library(tidyr)
-library(ComplexHeatmap)
+
 
 #Crear un DataFrame con el promedio de los datos teniedo en cuenta el organo y fuente de nitrogeno
 DatosBurdeosDMdef12_05_2021_unite<-unite(DatosBurdeosDMdef12_05_2021,Treatment, c("Source", "Accesion", 
