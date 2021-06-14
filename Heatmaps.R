@@ -41,7 +41,18 @@ matrix_A_raiz_mean<-as.matrix(A_raiz_mean[,c(-1:-8,-18,-23,-31,-32)])
 matrix_N_hojas_mean<-as.matrix(N_hojas_mean[,c(-1:-7,-23,-31,-32)])
 matrix_N_raiz_mean<-as.matrix(N_raiz_mean[,c(-1:-8,-18,-23,-31,-32)])
 
-#Trabajar con los datos tranformados y estandarizados de los fenotipos
+#Datos escalados (igual que en la Tesis)
+Prueba1<-scale(matrix_A_hojas_mean, center = FALSE, scale = TRUE)
+
+#Datos centrados y escalados
+Prueba2<-scale(matrix_A_hojas_mean, center = TRUE, scale = TRUE)
+  
+#Datos transformados, centrados, escalados
+Prueba3<-scale(sqrt(matrix_A_hojas_mean), center = TRUE, scale = TRUE)
+
+
+
+#Datos tranformados, centrados y escalado  de los fenotipos
 scaled_matrix_A_hojas_mean<-scale(sqrt(matrix_A_hojas_mean), center = TRUE, scale = TRUE)
 scaled_matrix_A_raiz_mean<-scale(sqrt(matrix_A_raiz_mean), center = TRUE, scale = TRUE)
 scaled_matrix_N_hojas_mean<-scale(sqrt(matrix_N_hojas_mean), center = TRUE, scale = TRUE)
