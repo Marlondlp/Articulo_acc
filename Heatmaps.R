@@ -35,60 +35,35 @@ rownames(N_hojas_mean)=N_hojas_mean$Accesion
 rownames(N_raiz_mean)=N_raiz_mean$Accesion
 
 
-#convertir a matrix
-matrix_A_hojas_mean<-as.matrix(A_hojas_mean[,c(-1:-7,-23,-31,-32)])
-matrix_A_raiz_mean<-as.matrix(A_raiz_mean[,c(-1:-8,-18,-23,-31,-32)])
-matrix_N_hojas_mean<-as.matrix(N_hojas_mean[,c(-1:-7,-23,-31,-32)])
-matrix_N_raiz_mean<-as.matrix(N_raiz_mean[,c(-1:-8,-18,-23,-31,-32)])
+#convertir a matrix con datos de biomasa
+matrix_A_hojas_mean_no_biomass<-as.matrix(A_hojas_mean[,c(-1:-7,-23,-31,-32)])
+#convertir a matrix con datos de biomasa
+matrix_A_hojas_mean_yes_biomass<-as.matrix(A_hojas_mean[,c(-1:-3,-6,-7,-23,-31,-32)])
 
-#Datos escalados (igual que en la Tesis)
-Prueba1<-scale(matrix_A_hojas_mean, center = FALSE, scale = TRUE)
+
+
+#Pruebas cambiando el procesamiento de los datos antes de graficar el Heatmap:
+
+#Datos escalados y con biomasas (parecido a la Tesis)
+Prueba1<-scale(matrix_A_hojas_mean_yes_biomass, center = FALSE, scale = TRUE)
+
+#Datos escalados y sin biomasas biomasa 
+Prueba2<-scale(matrix_A_hojas_mean_no_biomass, center = FALSE, scale = TRUE)
 
 #Datos centrados y escalados
-Prueba2<-scale(matrix_A_hojas_mean, center = TRUE, scale = TRUE)
+Prueba3<-scale(matrix_A_hojas_mean_no_biomass, center = TRUE, scale = TRUE)
   
 #Datos transformados, centrados, escalados
-Prueba3<-scale(sqrt(matrix_A_hojas_mean), center = TRUE, scale = TRUE)
+Prueba4<-scale(sqrt(matrix_A_hojas_mean_no_biomass), center = TRUE, scale = TRUE)
 
 
-
-#Datos tranformados, centrados y escalado  de los fenotipos
-scaled_matrix_A_hojas_mean<-scale(sqrt(matrix_A_hojas_mean), center = TRUE, scale = TRUE)
-scaled_matrix_A_raiz_mean<-scale(sqrt(matrix_A_raiz_mean), center = TRUE, scale = TRUE)
-scaled_matrix_N_hojas_mean<-scale(sqrt(matrix_N_hojas_mean), center = TRUE, scale = TRUE)
-scaled_matrix_N_raiz_mean<-scale(sqrt(matrix_N_raiz_mean), center = TRUE, scale = TRUE)
-
-#Teniendo en cuenta el orden de las accesiones en la matrix
-#Asignar colores a las accesiones en relacion al ratio A/N de la siguiete manera: 
-#diez primeras Accesiones con ratio A/N mas alto: purpura oscuro
-#posiciones 11-20 con ratio A/N mas alto: purpura intermedio
-#posiciones 21-26 con ratio A/N mas alto: purpura claro
-#diez primeras Accesiones con ratio A/N mas bajo: amarillo con verde oscuro
-#posiciones 11-20 con ratio A/N mas bajo: amarilo con verde claro
-#posiciones 21-26 con ratio A/N mas bajo: amarilo
-rowCols <-ifelse(rownames(scaled_matrix_A_hojas_mean)=="BdTR1i"|rownames(scaled_matrix_A_hojas_mean)=="Koz-1"|rownames(scaled_matrix_A_hojas_mean)=="Mig3"|rownames(scaled_matrix_A_hojas_mean)=="Per1"|rownames(scaled_matrix_A_hojas_mean)=="Mur1"|rownames(scaled_matrix_A_hojas_mean)=="BdTR10C"|rownames(scaled_matrix_A_hojas_mean)=="BdTR2B"|rownames(scaled_matrix_A_hojas_mean)=="Gaz-8"|rownames(scaled_matrix_A_hojas_mean)=="BdTR11I"|rownames(scaled_matrix_A_hojas_mean)=="BdTR11A", " darkorchid4",ifelse(rownames(scaled_matrix_A_hojas_mean)=="Bd18-1"|rownames(scaled_matrix_A_hojas_mean)=="BdTR13C"|rownames(scaled_matrix_A_hojas_mean)=="BdTR13a"|rownames(scaled_matrix_A_hojas_mean)=="BdTR3C"|rownames(scaled_matrix_A_hojas_mean)=="Mon3"|rownames(scaled_matrix_A_hojas_mean)=="Adi-12"|rownames(scaled_matrix_A_hojas_mean)=="BdTR5"|rownames(scaled_matrix_A_hojas_mean)=="Kah-5"|rownames(scaled_matrix_A_hojas_mean)=="ABR7"|rownames(scaled_matrix_A_hojas_mean)=="Bd21", " darkorchid3" ,ifelse (rownames(scaled_matrix_A_hojas_mean)=="BdTR8i"|rownames(scaled_matrix_A_hojas_mean)=="Kah-1"|rownames(scaled_matrix_A_hojas_mean)=="Bis-1"|rownames(scaled_matrix_A_hojas_mean)=="S8iiC"|rownames(scaled_matrix_A_hojas_mean)=="BdTR2G"|rownames(scaled_matrix_A_hojas_mean)=="BdTR11G","violet",ifelse (rownames(scaled_matrix_A_hojas_mean)=="Arn1"|rownames(scaled_matrix_A_hojas_mean)=="BdTR9K"|rownames(scaled_matrix_A_hojas_mean)=="Bd30-1"|rownames(scaled_matrix_A_hojas_mean)=="Bd2-3"|rownames(scaled_matrix_A_hojas_mean)=="Bd21-3"|rownames(scaled_matrix_A_hojas_mean)=="BdTR12c","yellow",ifelse (rownames(scaled_matrix_A_hojas_mean)=="Foz1"|rownames(scaled_matrix_A_hojas_mean)=="Adi-2"|rownames(scaled_matrix_A_hojas_mean)=="ABR2"|rownames(scaled_matrix_A_hojas_mean)=="Bd3-1"|rownames(scaled_matrix_A_hojas_mean)=="RON2"|rownames(scaled_matrix_A_hojas_mean)=="ABR4"|rownames(scaled_matrix_A_hojas_mean)=="ABR6"|rownames(scaled_matrix_A_hojas_mean)=="ABR8"|rownames(scaled_matrix_A_hojas_mean)=="Tek-4"|rownames(scaled_matrix_A_hojas_mean)=="ABR5","yellow4","yellow3")))))
+#Crear matrix para que al graficar me coloree las 10 accesiones mas sensibles y las 10 mas tolerantes
+rowCols <-ifelse(rownames(Prueba1)=="BdTR1i"|rownames(Prueba1)=="Koz-1"|rownames(Prueba1)=="Mig3"|rownames(Prueba1)=="Per1"|rownames(Prueba1)=="Mur1"|rownames(Prueba1)=="BdTR10C"|rownames(Prueba1)=="BdTR2B"|rownames(Prueba1)=="Gaz-8"|rownames(Prueba1)=="BdTR11I"|rownames(Prueba1)=="BdTR11A", " darkorchid4",ifelse (rownames(Prueba1)=="Foz1"|rownames(Prueba1)=="Adi-2"|rownames(Prueba1)=="ABR2"|rownames(Prueba1)=="Bd3-1"|rownames(Prueba1)=="RON2"|rownames(Prueba1)=="ABR4"|rownames(Prueba1)=="ABR6"|rownames(Prueba1)=="ABR8"|rownames(Prueba1)=="Tek-4"|rownames(Prueba1)=="ABR5","yellow4","white"))
 #Nota: como el orden de las accesiones en todas las matrices es el mismo, este rowCols me sirve para todas.
 
-#Graficarel el Heatmap de los datos estandarizados
-heatmap.2(scaled_matrix_A_hojas_mean,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D"),cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="LEAF-AMMONIUM NUTRITION")
-heatmap.2(scaled_matrix_A_raiz_mean,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D"),cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="ROOT-AMMONIUM NUTRITION")
-heatmap.2(scaled_matrix_N_hojas_mean,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D"),cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="LEAF-NITRATE NUTRITION")
-heatmap.2(scaled_matrix_N_raiz_mean,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D"),cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="ROOT-NITRATE NUTRITION")
 
-
-
-#Graficar el Heatmap con los datos del fold change(log2(A/N))
-#Nota: esta grafica es buena para indicarque fenotipos estan mas expresados en las plantas de amonio y nitrato
-#Nota2: no la pondria en el articulo porque conclusiones similares puedo extraerde las PCAs
-FC_hojas<-log2(matrix_A_hojas_mean)-log2(matrix_N_hojas_mean)
-heatmap.2(FC_hojas,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D"),cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="grafica no publicable")
-FC_raiz<-log2(matrix_A_raiz_mean)-log2(matrix_N_raiz_mean)
-heatmap.2(FC_raiz,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D"),cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="grafica no publicable")
-
-
-
-#Graficar el Heatmap con los datos del fold change estandarizado
-scaled_FC_hojas<-scale(FC_hojas, center = TRUE, scale = TRUE)
-heatmap.2(scaled_FC_hojas,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D"),cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="LEAF FOLD CHANGE AMMONIUM/NITRATE NUTRITION")
-scaled_FC_raiz<-scale(FC_raiz, center = TRUE, scale = TRUE)
-heatmap.2(scaled_FC_raiz,  scale = "none", col="bluered",hclustfun = function(x) hclust(x, method="ward.D"),cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="ROOT FOLD CHANGE AMMONIUM/NITRATE NUTRITION")
+#Graficar el Heatmap:
+Prueba1<-heatmap.2(Prueba1, col="bluered", cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="Datos escalados y con biomasas (parecido a la Tesis)", trace="none",scale="col")
+Prueba2<-heatmap.2(Prueba2, col="bluered",cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="Datos escalados y sin biomasas", trace="none", scale="col")
+Prueba3<-heatmap.2(Prueba3, col="bluered",cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="Datos centrados y escalados", trace="none", scale="col")
+Prueba4<-heatmap.2(Prueba4, col="bluered",cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="Datos transformados, centrados, escalados", trace="none", scale="col")
