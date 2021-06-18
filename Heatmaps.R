@@ -75,19 +75,3 @@ heatmap.2(scaled_matrix_N_raiz_mean,  scale = "col", col=gamadecolores,cexCol = 
 rowCols2 <-ifelse(rownames(scaled_matrix_A_organos_mean)=="BdTR1i_leaves"|rownames(scaled_matrix_A_organos_mean)=="Koz-1_leaves"|rownames(scaled_matrix_A_organos_mean)=="Mig3_leaves"|rownames(scaled_matrix_A_organos_mean)=="Per1_leaves"|rownames(scaled_matrix_A_organos_mean)=="Mur1__leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR10C__leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR2B_leaves"|rownames(scaled_matrix_A_organos_mean)=="Gaz-8_leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR11I_leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR11A_leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR1i_Root"|rownames(scaled_matrix_A_organos_mean)=="Koz-1_Root"|rownames(scaled_matrix_A_organos_mean)=="Mig3_Root"|rownames(scaled_matrix_A_organos_mean)=="Per1_Root"|rownames(scaled_matrix_A_organos_mean)=="Mur1__Root"|rownames(scaled_matrix_A_organos_mean)=="BdTR10C__Root"|rownames(scaled_matrix_A_organos_mean)=="BdTR2B_Root"|rownames(scaled_matrix_A_organos_mean)=="Gaz-8_Root"|rownames(scaled_matrix_A_organos_mean)=="BdTR11I_Root"|rownames(scaled_matrix_A_organos_mean)=="BdTR11A_Root", " darkorchid4",ifelse (rownames(scaled_matrix_A_organos_mean)=="Foz1_leaves"|rownames(scaled_matrix_A_organos_mean)=="Adi-2_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR2_leaves"|rownames(scaled_matrix_A_organos_mean)=="Bd3-1_leaves"|rownames(scaled_matrix_A_organos_mean)=="RON2_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR4_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR6_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR8_leaves"|rownames(scaled_matrix_A_organos_mean)=="Tek-4_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR5_leaves"|rownames(scaled_matrix_A_organos_mean)=="Foz1_Root"|rownames(scaled_matrix_A_organos_mean)=="Adi-2_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR2_Root"|rownames(scaled_matrix_A_organos_mean)=="Bd3-1_Root"|rownames(scaled_matrix_A_organos_mean)=="RON2_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR4_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR6_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR8_Root"|rownames(scaled_matrix_A_organos_mean)=="Tek-4_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR5_Root","yellow4","white"))
 heatmap.2(scaled_matrix_A_organos_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,RowSideColors=rowCols2, main="AMMONIUM NUTRITION",trace="none")
 heatmap.2(scaled_matrix_N_organos_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols2, main="NITRATE NUTRITION",trace="none")
-
-
-
-#Graficar el Heatmap con los datos del fold change(log2(A/N))
-#Nota: esta grafica es buena para indicarque fenotipos estan mas expresados en las plantas de amonio y nitrato
-#Nota2: no la pondria en el articulo porque conclusiones similares puedo extraerde las PCAs
-FC_hojas<-log2(matrix_A_hojas_mean)-log2(matrix_N_hojas_mean)
-heatmap.2(FC_hojas,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="grafica no publicable",trace="none")
-FC_raiz<-log2(matrix_A_raiz_mean)-log2(matrix_N_raiz_mean)
-heatmap.2(FC_raiz,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="grafica no publicable", trace="none")
-
-#Graficar el Heatmap con los datos del fold change estandarizado
-scaled_FC_hojas<-scale(FC_hojas, center = FALSE, scale = TRUE)
-heatmap.2(scaled_FC_hojas,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="LEAF FOLD CHANGE AMMONIUM/NITRATE NUTRITION", trace="none")
-scaled_FC_raiz<-scale(FC_raiz, center = FALSE, scale = TRUE)
-heatmap.2(scaled_FC_raiz,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="ROOT FOLD CHANGE AMMONIUM/NITRATE NUTRITION", trace="none")
