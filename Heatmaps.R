@@ -30,25 +30,23 @@ A_hojas_mean<-subset(hojas_mean, Source=="A")
 A_raiz_mean<-subset(raiz_mean, Source=="A")
 N_hojas_mean<-subset(hojas_mean, Source=="N")
 N_raiz_mean<-subset(raiz_mean, Source=="N")
-A_organos_mean<-subset(sepmean.Datos, Source=="A")
-N_organos_mean<-subset(sepmean.Datos, Source=="N")
+
 
 #Nombre de los rows
 rownames(A_hojas_mean)=A_hojas_mean$Accesion
 rownames(A_raiz_mean)=A_raiz_mean$Accesion
 rownames(N_hojas_mean)=N_hojas_mean$Accesion
-Nombre1<-unite(A_organos_mean,Treatment, c("Accesion", "Organ"),sep="_", remove=FALSE)
-rownames(A_organos_mean)=Nombre1$Treatment
-Nombre2<-unite(N_organos_mean,Treatment, c("Accesion", "Organ"),sep="_", remove=FALSE)
-rownames(N_organos_mean)=Nombre2$Treatment
 
-#convertir a matrix con datos de biomasa
+#convertir a matrix con datos sin biomasa
 matrix_A_hojas_mean<-as.matrix(A_hojas_mean[,c(-1:-7,-23,-31,-32)])
 matrix_A_raiz_mean<-as.matrix(A_raiz_mean[,c(-1:-8,-18,-23,-31,-32)])
 matrix_N_hojas_mean<-as.matrix(N_hojas_mean[,c(-1:-7,-23,-31,-32)])
 matrix_N_raiz_mean<-as.matrix(N_raiz_mean[,c(-1:-8,-18,-23,-31,-32)])
-matrix_A_organos_mean<-as.matrix(A_organos_mean[,c(-1:-8,-18,-23,-31,-32)])
-matrix_N_organos_mean<-as.matrix(N_organos_mean[,c(-1:-8,-18,-23,-31,-32)])
+matrix_A_Total_mean<-cbind(matrix_A_hojas_mean,matrix_A_raiz_mean)
+colnames(matrix_A_Total_mean)<-c("Chl_Leaf","NH4+_Leaf","Protein_Leaf","Amino acids_Leaf","Nitrate_Leaf","Fruc_Leaf","Gluc_Leaf","Suc_Leaf","Glu_Leaf","Malate_Leaf","Starch_Leaf","Citrate_Leaf","CS_Leaf","CSm_Leaf","GDH_Leaf","MDH_Leaf","ICDH_Leaf","PEPC_Leaf","PK_Leaf","FK_Leaf","GK_Leaf","Glutathione_Leaf","NH4+_Root","Protein_Root","Amino acids_Root","Nitrate_Root","Fruc_Root","Gluc_Root","Suc_Root","Glu_Root","Malate_Root","Citrate_Root","CS_Root","CSm_Root","GDH_Root","MDH_Root","ICDH_Root","PEPC_Root","PK_Root","FK_Root","GK_Root","Glutathione_Root")
+matrix_N_Total_mean<-cbind(matrix_N_hojas_mean,matrix_N_raiz_mean)
+colnames(matrix_N_Total_mean)<-c("Chl_Leaf","NH4+_Leaf","Protein_Leaf","Amino acids_Leaf","Nitrate_Leaf","Fruc_Leaf","Gluc_Leaf","Suc_Leaf","Glu_Leaf","Malate_Leaf","Starch_Leaf","Citrate_Leaf","CS_Leaf","CSm_Leaf","GDH_Leaf","MDH_Leaf","ICDH_Leaf","PEPC_Leaf","PK_Leaf","FK_Leaf","GK_Leaf","Glutathione_Leaf","NH4+_Root","Protein_Root","Amino acids_Root","Nitrate_Root","Fruc_Root","Gluc_Root","Suc_Root","Glu_Root","Malate_Root","Citrate_Root","CS_Root","CSm_Root","GDH_Root","MDH_Root","ICDH_Root","PEPC_Root","PK_Root","FK_Root","GK_Root","Glutathione_Root")
+
 
 #Trabajar con los datos escalados de los fenotipos
 
@@ -56,8 +54,8 @@ scaled_matrix_A_hojas_mean<-scale(matrix_A_hojas_mean, center = FALSE, scale = T
 scaled_matrix_A_raiz_mean<-scale(matrix_A_raiz_mean, center = FALSE, scale = TRUE)
 scaled_matrix_N_hojas_mean<-scale(matrix_N_hojas_mean, center = FALSE, scale = TRUE)
 scaled_matrix_N_raiz_mean<-scale(matrix_N_raiz_mean, center = FALSE, scale = TRUE)
-scaled_matrix_A_organos_mean<-scale(matrix_A_organos_mean, center = FALSE, scale = TRUE)
-scaled_matrix_N_organos_mean<-scale(matrix_N_organos_mean, center = FALSE, scale = TRUE)
+scaled_matrix_A_Total_mean<-scale(matrix_A_Total_mean, center = FALSE, scale = TRUE)
+scaled_matrix_N_Total_mean<-scale(matrix_N_Total_mean, center = FALSE, scale = TRUE)
 
 
 #Crear matrix para que al graficar me coloree las 10 accesiones mas sensibles y las 10 mas tolerantes
@@ -70,8 +68,5 @@ heatmap.2(scaled_matrix_A_hojas_mean,  scale = "col", col=gamadecolores,cexCol =
 heatmap.2(scaled_matrix_A_raiz_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="ROOT-AMMONIUM NUTRITION",trace="none")
 heatmap.2(scaled_matrix_N_hojas_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="LEAF-NITRATE NUTRITION",trace="none")
 heatmap.2(scaled_matrix_N_raiz_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="ROOT-NITRATE NUTRITION",trace="none")
-
-#para la grafica de los dos organos debo antes crear una matriz de colores
-rowCols2 <-ifelse(rownames(scaled_matrix_A_organos_mean)=="BdTR1i_leaves"|rownames(scaled_matrix_A_organos_mean)=="Koz-1_leaves"|rownames(scaled_matrix_A_organos_mean)=="Mig3_leaves"|rownames(scaled_matrix_A_organos_mean)=="Per1_leaves"|rownames(scaled_matrix_A_organos_mean)=="Mur1__leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR10C__leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR2B_leaves"|rownames(scaled_matrix_A_organos_mean)=="Gaz-8_leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR11I_leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR11A_leaves"|rownames(scaled_matrix_A_organos_mean)=="BdTR1i_Root"|rownames(scaled_matrix_A_organos_mean)=="Koz-1_Root"|rownames(scaled_matrix_A_organos_mean)=="Mig3_Root"|rownames(scaled_matrix_A_organos_mean)=="Per1_Root"|rownames(scaled_matrix_A_organos_mean)=="Mur1__Root"|rownames(scaled_matrix_A_organos_mean)=="BdTR10C__Root"|rownames(scaled_matrix_A_organos_mean)=="BdTR2B_Root"|rownames(scaled_matrix_A_organos_mean)=="Gaz-8_Root"|rownames(scaled_matrix_A_organos_mean)=="BdTR11I_Root"|rownames(scaled_matrix_A_organos_mean)=="BdTR11A_Root", " darkorchid4",ifelse (rownames(scaled_matrix_A_organos_mean)=="Foz1_leaves"|rownames(scaled_matrix_A_organos_mean)=="Adi-2_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR2_leaves"|rownames(scaled_matrix_A_organos_mean)=="Bd3-1_leaves"|rownames(scaled_matrix_A_organos_mean)=="RON2_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR4_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR6_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR8_leaves"|rownames(scaled_matrix_A_organos_mean)=="Tek-4_leaves"|rownames(scaled_matrix_A_organos_mean)=="ABR5_leaves"|rownames(scaled_matrix_A_organos_mean)=="Foz1_Root"|rownames(scaled_matrix_A_organos_mean)=="Adi-2_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR2_Root"|rownames(scaled_matrix_A_organos_mean)=="Bd3-1_Root"|rownames(scaled_matrix_A_organos_mean)=="RON2_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR4_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR6_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR8_Root"|rownames(scaled_matrix_A_organos_mean)=="Tek-4_Root"|rownames(scaled_matrix_A_organos_mean)=="ABR5_Root","yellow4","white"))
-heatmap.2(scaled_matrix_A_organos_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,RowSideColors=rowCols2, main="AMMONIUM NUTRITION",trace="none")
-heatmap.2(scaled_matrix_N_organos_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols2, main="NITRATE NUTRITION",trace="none")
+heatmap.2(scaled_matrix_A_Total_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="AMMONIUM NUTRITION",trace="none")
+heatmap.2(scaled_matrix_N_Total_mean,  scale = "col", col=gamadecolores,cexCol = 0.6,cexRow = 0.6,  RowSideColors=rowCols, main="NITRATE NUTRITION",trace="none")
